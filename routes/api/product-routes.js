@@ -11,11 +11,20 @@ router.get('/', async (req, res) => {
     }
   });
 // get one product
-router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+router.get('/:id', async (req, res) => {
+  try{
+    const ProductData = await Product.findByPk(req.params.id, {
+      include:[{model:Category}, {model:Tag}]
+  })
+  if (!ProductData){
+    res.status(404).json({message:"No aligning category id found"});
+  return
+  }
+  res.status(200).json(ProductData);
+}catch (err){
+res.status(500).json(err);
+}
 });
-
 // create new product
 router.post('/', (req, res) => {
   /* req.body should look like this...
