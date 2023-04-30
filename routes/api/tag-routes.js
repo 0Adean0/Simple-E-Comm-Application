@@ -19,7 +19,7 @@ try {
   const TagData = await Tag.findByPk(req.params.id, {
     include: [{model:Product}]})
     if (!TagData){
-      res.status(404).json({message:"No aligning category id found"});
+      res.status(404).json({message:"No aligning tag id found"});
       return;
     }
     res.status(200).json(TagData);
@@ -49,8 +49,20 @@ router.put('/:id', async (req, res) => {
 res.status(500).json(err)
 }
 });
-router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
+router.delete('/:id', async (req, res) => {
+try{
+  const DeleteTag = await Tag.destroy({
+    where:{id: req.params.id
+    }
+  })
+  if (!DeleteTag) {
+    res.status(404).json({message: "No aligning teg id found"});
+    return;
+  }
+  res.status(200).json(DeleteTag)
+}catch (err){
+  res.status(500).json(err)
+}
 });
 
 module.exports = router;
