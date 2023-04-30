@@ -19,7 +19,7 @@ router.get('/:id', async (req, res) => {
     })
     if (!ProductData) {
       res.status(404).json({ message: "No aligning category id found" });
-      return
+      return;
     }
     res.status(200).json(ProductData);
   } catch (err) {
@@ -109,7 +109,7 @@ router.delete('/:id', async (req, res) => {
     });
     if (!ProductData) {
       res.status(404).json({ message: "No aligning product id found" });
-      return
+      return;
     }
     res.status(200).json(ProductData);
   }catch(err){
